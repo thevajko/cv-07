@@ -22,6 +22,34 @@ class PostController extends AControllerBase
     {
     }
 
+    public function authorize($action): bool
+    {
+        switch ($action) {
+            case 'edit' :
+            case 'delete' :
+                // get id of post to check
+                $id = (int)$this->request()->getValue("id");
+                // get post from db
+                $postToCheck = Post::getOne($id);
+                // check if the logged login is the same as the post author
+                // if yes, he can edit and delete post
+                return $postToCheck->getAuthor() == $this->app->getAuth()->getLoggedUserName();
+            case 'save':
+                // get id of post to check
+                $id = (int)$this->request()->getValue("id");
+                if ($id > 0 ) {
+                    // only author can save the edited post
+                    $postToCheck = Post::getOne($id);
+                    return $postToCheck->getAuthor()() == $this->app->getAuth()->getLoggedUserName();
+                } else {
+                    // anyone can add a new post
+                    return $this->app->getAuth()->isLogged();
+                }
+            default:
+                return $this->app->getAuth()->isLogged();
+        }
+    }
+
     public function add(): Response
     {
         return $this->html();
@@ -29,7 +57,7 @@ class PostController extends AControllerBase
 
     public function edit(): Response
     {
-        $id = (int) $this->request()->getValue('id');
+        $id = (int)$this->request()->getValue('id');
         $post = Post::getOne($id);
 
         if (is_null($post)) {
@@ -53,6 +81,7 @@ class PostController extends AControllerBase
             $oldFileName = $post->getPicture();
         } else {
             $post = new Post();
+            $post->setAuthor($this->app->getAuth()->getLoggedUserName());
         }
         $post->setText($this->request()->getValue('text'));
         $post->setPicture($this->request()->getFiles()['picture']['name']);
@@ -78,7 +107,7 @@ class PostController extends AControllerBase
 
     public function delete()
     {
-        $id = (int) $this->request()->getValue('id');
+        $id = (int)$this->request()->getValue('id');
         $post = Post::getOne($id);
 
         if (is_null($post)) {
