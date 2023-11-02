@@ -8,6 +8,10 @@
                 <div class="m-2">
                     Proin vitae euismod nibh, ut tempus mi. Nunc quis vehicula lorem. Maecenas vel cursus tellus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; In quis lacinia sapien. Nam condimentum leo eu ligula maximus, sollicitudin suscipit mauris interdum.
                 </div>
+                <div class="m-2 d-flex gap-2 justify-content-end">
+                    <a href="" class="btn btn-primary">Upraviť</a>
+                    <a href="" class="btn btn-danger">Zmazať</a>
+                </div>
             </div>
         </div>
     </div>

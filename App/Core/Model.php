@@ -107,6 +107,7 @@ abstract class Model implements \JsonSerializable
      */
     public static function getConnection()
     {
+        self::connect();
         return self::$connection;
     }
 

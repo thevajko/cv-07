@@ -25,7 +25,7 @@
         </a>
         <ul class="navbar-nav me-auto">
             <li class="nav-item">
-                <a class="nav-link" href="<?= $link->url("home.contact") ?>">Kontakt</a>
+                <a class="nav-link" href="<?= $link->url("post.add") ?>">Pridať príspevok</a>
             </li>
         </ul>
         <?php if ($auth->isLogged()) { ?>

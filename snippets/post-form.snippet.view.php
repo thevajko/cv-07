@@ -12,6 +12,7 @@
                 <div class="input-group mb-3 has-validation">
                      <input type="text" class="form-control" name="picture" id="inputGroupFile02">
 <!--                    <input type="file" class="form-control " name="picture" id="inputGroupFile02">-->
+<!--                    <label class="input-group-text"  for="inputGroupFile02">Upload</label>-->
                 </div>
                 <label for="post-text" class="form-label">Text príspevku</label>
                 <div class="input-group has-validation mb-3 ">

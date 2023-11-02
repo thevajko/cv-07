@@ -1,31 +1,28 @@
+<?php
+
+/** @var Array $data */
+/** @var \App\Models\Post $post */
+
+/** @var \App\Core\LinkGenerator $link */
+?>
+
 <div class="container-fluid">
-    <div class="row">
-        <div class="col mt-5">
-            <div class="text-center">
-                <h2>Vaííčko MVC FW</h2>
-                <img src="public/images/vaiicko_logo.png">
-                <p>
-                    Gratulujeme vám, úspešne sa vám podarilo nainštalovať a spustiť framework
-                    <strong>Vaííčko</strong> <?= \App\Config\Configuration::FW_VERSION ?>!<br>
-                    Dúfame, že sa Vám pomocou totho frameworku vytvoríte nejakú skvelú aplikáciu.<br>
-                </p>
-                <p>
-                    Tento jednoduchý framework bol vytvorený pre lepšie pochopenie architektúry MVC.<br>
-                    Je určený pre študentov predmetu <em>vývoj aplikcií pre internet a intranet</em>, ale nielen im.
-                </p>
+    <div class="row justify-content-center">
+        <?php foreach ($data['posts'] as $post): ?>
+        <div class="col-3 d-flex gap-4 flex-column">
+            <div class="border post d-flex flex-column">
+                <div>
+                    <img src="<?= \App\Helpers\FileStorage::UPLOAD_DIR . '/' . $post->getPicture()?>" class="img-fluid">
+                </div>
+                <div class="m-2">
+                    <?= $post->getText() ?>
+                </div>
+                <div class="m-2 d-flex gap-2 justify-content-end">
+                    <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary">Upraviť</a>
+                    <a href="<?= $link->url('post.delete', ['id' => $post->getId()]) ?>"  class="btn btn-danger">Zmazať</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row mt-3">
-        <div class="col text-center">
-            <h4>Autori</h4>
-            <div>
-                <a href="mailto:Patrik.Hrkut@fri.uniza.sk">doc. Ing. Patrik Hrkút, PhD.</a><br>
-                <a href="mailto:Michal.Duracik@fri.uniza.sk">Ing. Michal Ďuračík, PhD.</a><br>
-                <a href="mailto:Matej.Mesko@fri.uniza.sk">Ing. Matej Meško, PhD.</a><br><br>
-                &copy; 2020-<?= date('Y') ?> Žilinská univerzita v Žiline, Fakulta riadenia a informatiky, Katedra
-                softvérových technológií
-            </div>
-        </div>
+        <?php endforeach; ?>
     </div>
 </div>

@@ -1,9 +1,10 @@
 # VAII cvičenie 06
-Momentálne je otvorená vetva __MAIN__, ktorá obsahuje _štartér_. Riešenie obsahuje vetva __SOLUTION__.
+Momentálne je otvorená vetva __SOLUTION__, ktorá obsahuje _riešenie_. _Štartér_ obsahuje vetva __MAIN__.
+Ak chcete vyskúšať riešenie, je potrebné v __Docker Desktop__ zmazať _stack_ __vaii_cv06__, aby sa vám správne inicializovala DB.
 
 ## Úlohy
 
-Vytvorte jednoduchú aplikáciu, kde bude možné uverejňovať príspevky skladajúce sa z textu a fotografie. Implementujte všetky CRUD operácie.
+Vytvorte jednoduchú aplikáciu, kde bude možné uverejňovať príspevky skladajúce sa z textu a fotografie. Implementujte všetky CRUD operácie. 
 
 1. Vytvorenie modelu pre entitu `Post`.
    1. Použite SQL skript `ddl.posts_01.sql` na vytvorenie DB tabuľky v DB `vaiicko_db`.
