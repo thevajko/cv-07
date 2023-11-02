@@ -3,18 +3,17 @@ Momentálne je otvorená vetva __SOLUTION__, ktorá obsahuje _riešenie_. _Štar
 Ak chcete vyskúšať riešenie, je potrebné v __Docker Desktop__ zmazať _stack_ __vaii_cv07__, aby sa vám správne inicializovala DB.
 
 ## Úlohy
-
-Upravte aplikáciu z minulého cvičenia tak, aby sa používateľ musel najskôr prihlásiť, ak chcete pridávať, upravovať alebo zmazať príspevok. Pridajte autorizáciu akcií, aby používateľ mohol upravovať a zmazať len svoj príspevok. Doplňte funkciu na lajkovanie príspevkov. 
+Upravte aplikáciu z minulého cvičenia tak, aby sa používateľ musel najskôr prihlásiť, ak chcete pridávať, upravovať alebo zmazať príspevok. Pridajte autorizáciu akcií, aby používateľ mohol upravovať a zmazať len svoj príspevok. Doplňte funkciu na lajkovanie príspevkov.
 
 1. Prihlasovanie
    1. Vytvorte potomka triedy `DummyAuthenticator` a upravte proces prihlásenia tak, aby bol používateľ prihlásený, ak sa jeho login a heslo rovnajú.
    2. Upravte nastavenia aplikácie tak, aby sa používal nový spôsob prihlásenia.
    3. V menu položku Pridať príspevok zobrazte iba prihláseným používateľom.
-   4. Všetky akcie v `Post` kontroléri sa budú zobrazovať iba pre prihlásených používateľov. 
-   5. Pre neprihlásených skryte tlačidlá na pridanie a zmazanie príspevku. 
+   4. Všetky akcie v `Post` kontroléri sa budú zobrazovať iba pre prihlásených používateľov.
+   5. Pre neprihlásených skryte tlačidlá na pridanie a zmazanie príspevku.
 2. Zobrazenie autora príspevku
    1. Upravte model pre príspevok tak, aby si obsahoval login jeho autora.
-   2. Spustite SQL skript `snippets\ddl.posts_01_alter.sql`, aby sa vytvoril nový stĺpec v DB.  
+   2. Spustite SQL skript `snippets\ddl.posts_01_alter.sql`, aby sa vytvoril nový stĺpec v DB.
    3. Autora zobrazte v príspevkoch na `Home` page.
    4. Autora ukladajte pri pridávaní nového príspevku.
 3. Pridanie autorizácie
@@ -23,8 +22,8 @@ Upravte aplikáciu z minulého cvičenia tak, aby sa používateľ musel najskô
    1. Vytvorte nový model `Like`. Spustite SQL skript `snippets\ddl.likes_01.sql`.
    2. Doplňte v príspevku tlačidlo na lajkovanie s počtom lajkov.
    3. Zobrazte počet lajkov pri každom príspevku.
-   4. Vytvorte aplikačnú logiku lajkovania. Jeden používateľ môže lajknúť príspevok len raz. Ak ho lajkne znovu, lajk sa zruší. 
-   
+   4. Vytvorte aplikačnú logiku lajkovania. Jeden používateľ môže lajknúť príspevok len raz. Ak ho lajkne znovu, lajk sa zruší.
+
 ## Ako nájdem vetvu môjho cvičenia?
 Pokiaľ sa chcete dostať k riešeniu z cvičenia je potrebné otvoriť si príslušnú _vetvu_, ktorej názov sa skladá:
 
