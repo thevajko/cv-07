@@ -21,10 +21,11 @@ Upravte aplikáciu z minulého cvičenia tak, aby sa používateľ musel najskô
 4. Pridanie lajkovania k príspevkom
    1. Spustite SQL skript `snippets\ddl.likes_01.sql`.
    2. Vytvorte nový model `Like` a pridajte atribúty podľa DB tabuľky.
-   3. Doplňte v príspevku tlačidlo na lajkovanie s počtom lajkov. Lajkovanie povoľte len prihláseným používateľom.
-   4. Uloźte lajk bez ohľadu na to, koľko krát používateľ klikol na príspevok.
-   5. Zobrazte počet lajkov pri každom príspevku.
-   6. Upravte aplikačnú logiku lajkovania. Jeden používateľ môže lajknúť príspevok len raz. Ak ho "lajkne" znovu, lajk sa zruší.
+   3. Pridajte si do aplikácie ikony z bootstrapu.
+   4. Doplňte v príspevku tlačidlo na lajkovanie (Bootstrap ikona) s počtom lajkov. Lajkovanie povoľte len prihláseným používateľom.
+   5. Uloźte lajk bez ohľadu na to, koľko krát používateľ klikol na príspevok.
+   6. Zobrazte počet lajkov pri každom príspevku.
+   7. Upravte aplikačnú logiku lajkovania. Jeden používateľ môže lajknúť príspevok len raz. Ak ho "lajkne" znovu, lajk sa zruší.
 
 ## Ako nájdem vetvu môjho cvičenia?
 Pokiaľ sa chcete dostať k riešeniu z cvičenia je potrebné otvoriť si príslušnú _vetvu_, ktorej názov sa skladá:
