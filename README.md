@@ -8,8 +8,8 @@ Upravte aplikáciu z minulého cvičenia tak, aby sa používateľ musel najskô
    1. Vytvorte potomka triedy `DummyAuthenticator` a upravte proces prihlásenia tak, aby bol používateľ prihlásený, ak sa jeho login a heslo rovnajú.
    2. Upravte nastavenia aplikácie tak, aby sa používal nový spôsob prihlásenia.
    3. V menu položku Pridať príspevok zobrazte iba prihláseným používateľom.
-   4. Všetky akcie v `Post` kontroléri sa budú zobrazovať iba pre prihlásených používateľov.
-   5. Pre neprihlásených skryte tlačidlá na pridanie a zmazanie príspevku.
+   4. Pre neprihlásených skryte tlačidlá na pridanie a zmazanie príspevku.
+   5. Všetky akcie v `Post` kontroléri sa budú zobrazovať iba pre prihlásených používateľov.
 2. Zobrazenie autora príspevku
    1. Upravte model pre príspevok tak, aby si obsahoval login jeho autora.
    2. Spustite SQL skript `snippets\ddl.posts_01_alter.sql`, aby sa vytvoril nový stĺpec v DB.
