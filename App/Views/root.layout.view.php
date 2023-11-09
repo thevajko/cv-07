@@ -1,6 +1,7 @@
 <?php
 
 /** @var string $contentHTML */
+
 /** @var \App\Core\IAuthenticator $auth */
 /** @var \App\Core\LinkGenerator $link */
 ?>
@@ -25,24 +26,30 @@
                  title="<?= \App\Config\Configuration::APP_NAME ?>">
         </a>
         <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="<?= $link->url("post.add") ?>">Pridať príspevok</a>
-            </li>
+            <?php
+            if ($auth->isLogged()) { ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= $link->url("post.add") ?>">Pridať príspevok</a>
+                </li>
+            <?php } ?>
         </ul>
-        <?php if ($auth->isLogged()) { ?>
+        <?php
+        if ($auth->isLogged()) { ?>
             <span class="navbar-text">Prihlásený používateľ: <b><?= $auth->getLoggedUserName() ?></b></span>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="<?= $link->url("auth.logout") ?>">Odhlásenie</a>
                 </li>
             </ul>
-        <?php } else { ?>
+        <?php
+        } else { ?>
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="<?= \App\Config\Configuration::LOGIN_URL ?>">Prihlásenie</a>
                 </li>
             </ul>
-        <?php } ?>
+        <?php
+        } ?>
     </div>
 </nav>
 <div class="container-fluid mt-3">
