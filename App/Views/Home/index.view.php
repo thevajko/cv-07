@@ -18,10 +18,13 @@
                     <div class="m-2">
                         <?= $post->getText() ?>
                     </div>
+                    <div class="m-2">
+                        Author: <b><?= $post->getAuthor() ?></b>
+                    </div>
                     <div class="m-2 d-flex gap-2 justify-content-end">
-                        <?php if ($auth->isLogged()) { ?>
-                            <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary">Upraviť</a>
-                            <a href="<?= $link->url('post.delete', ['id' => $post->getId()]) ?>" class="btn btn-danger">Zmazať</a>
+                        <?php if ($auth->isLogged() && $auth->getLoggedUserName() == $post->getAuthor()) { ?>
+                            <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary"><i class="bi bi-pencil"></i> Upraviť</a>
+                            <a href="<?= $link->url('post.delete', ['id' => $post->getId()]) ?>" class="btn btn-danger"><i class="bi bi-trash"></i> Zmazať</a>
                         <?php } ?>
                     </div>
                 </div>

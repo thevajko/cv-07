@@ -17,7 +17,16 @@ class PostController extends AControllerBase
 {
     public function authorize(string $action) : bool
     {
-        return $this->app->getAuth()->isLogged();
+        switch ($action) {
+            case 'add':
+                return $this->app->getAuth()->isLogged();
+            case 'edit':
+            case 'delete':
+                $post = Post::getOne($this->request()->getValue('id'));
+                return $this->app->getAuth()->getLoggedUserName() == $post->getAuthor();
+            default:
+                return false;
+        }
     }
 
     /**
@@ -58,6 +67,7 @@ class PostController extends AControllerBase
             $oldFileName = $post->getPicture();
         } else {
             $post = new Post();
+            $post->setAuthor($this->app->getAuth()->getLoggedUserName());
         }
         $post->setText($this->request()->getValue('text'));
         $post->setPicture($this->request()->getFiles()['picture']['name']);
