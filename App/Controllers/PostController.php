@@ -40,7 +40,7 @@ class PostController extends AControllerBase
                 if ($id > 0 ) {
                     // only author can save the edited post
                     $postToCheck = Post::getOne($id);
-                    return $postToCheck->getAuthor()() == $this->app->getAuth()->getLoggedUserName();
+                    return $postToCheck->getAuthor() == $this->app->getAuth()->getLoggedUserName();
                 } else {
                     // anyone can add a new post
                     return $this->app->getAuth()->isLogged();
