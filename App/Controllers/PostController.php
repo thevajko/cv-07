@@ -15,6 +15,11 @@ use PDO;
 
 class PostController extends AControllerBase
 {
+    public function authorize(string $action) : bool
+    {
+        return $this->app->getAuth()->isLogged();
+    }
+
     /**
      * @inheritDoc
      */

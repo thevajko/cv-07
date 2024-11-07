@@ -24,9 +24,11 @@
                  title="<?= \App\Config\Configuration::APP_NAME ?>">
         </a>
         <ul class="navbar-nav me-auto">
+            <?php if ($auth->isLogged()): ?>
             <li class="nav-item">
                 <a class="nav-link" href="<?= $link->url("post.add") ?>">Pridať príspevok</a>
             </li>
+            <?php endif; ?>
         </ul>
         <?php if ($auth->isLogged()) { ?>
             <span class="navbar-text">Prihlásený používateľ: <b><?= $auth->getLoggedUserName() ?></b></span>
