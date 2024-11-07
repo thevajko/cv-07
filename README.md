@@ -1,5 +1,6 @@
 # VAII cvičenie 07
-Momentálne je otvorená vetva __MAIN__, ktorá obsahuje _štartér_. _Riešenie_ obsahuje vetva __SOLUTION__.
+Momentálne je otvorená vetva __SOLUTION__, ktorá obsahuje _riešenie_. _Štartér_ obsahuje vetva __MAIN__.
+Ak chcete vyskúšať riešenie, je potrebné v __Docker Desktop__ zmazať _stack_ __vaii_cv07__, aby sa vám správne inicializovala DB.
 
 ## Úlohy
 Upravte aplikáciu z minulého cvičenia tak, aby sa používateľ musel najskôr prihlásiť, ak chcete pridávať, upravovať alebo zmazať príspevok. Pridajte autorizáciu akcií, aby používateľ mohol upravovať a zmazať len svoj príspevok. Doplňte funkciu na lajkovanie príspevkov.
@@ -9,8 +10,8 @@ Upravte aplikáciu z minulého cvičenia tak, aby sa používateľ musel najskô
    2. Upravte nastavenia aplikácie tak, aby sa používal nový spôsob prihlásenia.
    3. V menu položku Pridať príspevok zobrazte iba prihláseným používateľom.
    4. Pre neprihlásených skryte tlačidlá na pridanie a zmazanie príspevku.
-   5. Zabezpečte, aby sa príspevky zobrazovali aj na Home stránke v Admin časti aplikácie.
-   6. Všetky akcie v `Post` kontroléri sa budú zobrazovať iba pre prihlásených používateľov.
+   5. Zabezpečte, aby sa používateľ po prihlásení opäť dostal na stránku s príspevkami.
+   6. Nastavte správanie kontrolera `Post` tak, aby akcie v nich mohli použiť iba prihlásení používatelia.
 2. Zobrazenie autora príspevku
    1. Spustite SQL skript `snippets\ddl.posts_01_alter.sql`, aby sa vytvoril nový stĺpec v DB.
    2. Upravte model pre príspevok tak, aby obsahoval aj login jeho autora.
@@ -23,7 +24,7 @@ Upravte aplikáciu z minulého cvičenia tak, aby sa používateľ musel najskô
    2. Vytvorte nový model `Like` a pridajte atribúty podľa DB tabuľky.
    3. Pridajte si do aplikácie ikony z bootstrapu.
    4. Doplňte v príspevku tlačidlo na lajkovanie (Bootstrap ikona) s počtom lajkov. Lajkovanie povoľte len prihláseným používateľom.
-   5. Uloźte lajk bez ohľadu na to, koľko krát používateľ klikol na príspevok.
+   5. Uloźte lajk bez ohľadu na to, koľkokrát používateľ klikol na príspevok.
    6. Zobrazte počet lajkov pri každom príspevku.
    7. Upravte aplikačnú logiku lajkovania. Jeden používateľ môže lajknúť príspevok len raz. Ak ho "lajkne" znovu, lajk sa zruší.
 
@@ -36,3 +37,4 @@ Ak teda navštevujete cvičenie pondelok o 08:00 v RA323, tak sa vaša vetva bud
 
 # Použitý framework
 Cvičenie používa framework vaííčko dostupný na repe [https://github.com/thevajko/vaiicko](https://github.com/thevajko/vaiicko)
+
