@@ -1,13 +1,10 @@
 <?php
 
 /** @var Framework\Support\LinkGenerator $link */
-/** @var \Framework\Core\IAuthenticator $auth */
 /** @var array $formErrors */
-
 /** @var \App\Models\Post[] $posts */
 
 use App\Configuration;
-
 ?>
 
 <div class="container-fluid">
@@ -26,17 +23,9 @@ use App\Configuration;
                     <div class="m-2">
                         <?= $post->getText() ?>
                     </div>
-                    <div class="m-2">
-                        Autor: <strong><?= $post->getAuthor() ?></strong>
-                    </div>
                     <div class="m-2 d-flex gap-2 justify-content-end">
-                        <?php if ($auth->isLogged() && ($auth->user?->getName() == $post->getAuthor())): ?>
-                            <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary">Upraviť</a>
-                            <a href="<?= $link->url('post.delete', ['id' => $post->getId()]) ?>" class="btn btn-danger">Zmazať</a>
-                        <?php else: ?>
-                            <a href="<?= $link->url('like.toggle', ['id' => $post->getId()]) ?>" class="btn btn-primary btn-sm"><?= $post->getLikeCount() ?> <i
-                                        class="bi bi-hand-thumbs-up"></i></a>
-                        <?php endif; ?>
+                        <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary">Upraviť</a>
+                        <a href="<?= $link->url('post.delete', ['id' => $post->getId()]) ?>" class="btn btn-danger">Zmazať</a>
                     </div>
                 </div>
             </div>

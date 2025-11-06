@@ -13,42 +13,6 @@ use Framework\Http\Responses\Response;
 class PostController extends BaseController
 {
     /**
-     * Authorization method
-     *
-     * @param Request $request
-     * @param string $action
-     * @return bool
-     * @throws Exception
-     */
-    public function authorize(Request $request, string $action): bool
-    {
-        switch ($action) {
-            case 'edit' :
-            case 'delete' :
-                // get id of post to check
-                $id = (int)$request->value("id");
-                // get post from db
-                $postToCheck = Post::getOne($id);
-                // check if the logged login is the same as the post author
-                // if yes, he can edit and delete post
-                return $postToCheck->getAuthor() == $this->app->getAuth()->user->getName();
-            case 'save':
-                // get id of post to check
-                $id = (int)$request->value("id");
-                if ($id > 0 ) {
-                    // only author can save the edited post
-                    $postToCheck = Post::getOne($id);
-                    return $postToCheck->getAuthor() == $this->app->getAuth()->user->getName();
-                } else {
-                    // anyone can add a new post
-                    return $this->app->getAuth()->isLogged();
-                }
-            default:
-                return $this->app->getAuth()->isLogged();
-        }
-    }
-
-    /**
      * Example of an action (authorization needed)
      *
      * @param Request $request
@@ -115,7 +79,6 @@ class PostController extends BaseController
         } else {
             $post = new Post();
         }
-        $post->setAuthor($this->app->getAuth()->user->getName());
         $post->setText($request->value('text'));
         // Do not set original name; we'll generate a unique one below after validation and store
 
