@@ -11,8 +11,8 @@ Východiskom je aplikácia z cvičenia 06. Nezabudnite nastaviť pre adresár `p
 1. Prihlasovanie
     1. Vytvorte potomka triedy `DummyAuthenticator` a upravte proces prihlásenia tak, aby bol používateľ prihlásený, ak sa jeho login a heslo rovnajú.
     2. Upravte nastavenia aplikácie tak, aby sa používal nový spôsob prihlásenia.
-    3. V menu položku *Príspevky* zobrazte iba prihláseným používateľom.
-    6. Nastavte správanie kontrolera `Post` tak, aby akcie v nich mohli použiť iba prihlásení používatelia.
+    3. Zobrazenie príspevkov po kliknutí na položku menu *Príspevky* umožnite iba prihláseným používateľom.
+    4. Nastavte správanie kontrolera `Post` tak, aby akcie v nich mohli použiť iba prihlásení používatelia.
 2. Zobrazenie autora príspevku
     1. Spustite SQL skript `snippets\ddl.posts_01_alter.sql`, aby sa vytvoril nový stĺpec v tabuľke `posts` v DB.
     2. Upravte model pre príspevok tak, aby obsahoval aj prihlasovacie meno jeho autora.
@@ -25,7 +25,7 @@ Východiskom je aplikácia z cvičenia 06. Nezabudnite nastaviť pre adresár `p
     2. Vytvorte nový model `Like` a pridajte atribúty podľa DB tabuľky.
     3. Pridajte si do aplikácie ikony z bootstrapu.
     4. Doplňte v príspevku tlačidlo na lajkovanie (Bootstrap ikona) s počtom lajkov. Lajkovanie povoľte len prihláseným používateľom.
-    5. Uloźte lajk bez ohľadu na to, koľkokrát používateľ klikol na príspevok.
+    5. Uložte lajk bez ohľadu na to, koľkokrát používateľ klikol na príspevok.
     6. Zobrazte počet lajkov pri každom príspevku.
     7. Upravte aplikačnú logiku lajkovania. Jeden používateľ môže lajknúť príspevok len raz. Ak ho "lajkne" znovu, lajk sa zruší.
 
