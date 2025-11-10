@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Configuration;
+use App\Models\Like;
 use App\Models\Post;
 use Exception;
 use Framework\Core\BaseController;
@@ -164,6 +165,28 @@ class PostController extends BaseController
             }
             @unlink(Configuration::UPLOAD_DIR . $post->getPicture());
             $post->delete();
+
+        } catch (Exception $e) {
+            throw new HttpException(500, 'DB Chyba: ' . $e->getMessage());
+        }
+
+        return $this->redirect($this->url("post.index"));
+    }
+
+    public function like(Request $request): Response
+    {
+        try {
+            $id = (int)$request->value('id');
+            $post = Post::getOne($id);
+
+            if (is_null($post)) {
+                throw new HttpException(404);
+            }
+
+            $like = new Like();
+            $like->setPostId($post->getId());
+            $like->setLiker($this->app->getAuth()->getUser()->getName());
+            $like->save();
 
         } catch (Exception $e) {
             throw new HttpException(500, 'DB Chyba: ' . $e->getMessage());

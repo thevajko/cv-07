@@ -7,17 +7,17 @@ use Framework\Core\Model;
 class Like extends Model
 {
     protected ?int $id = null;
-    protected int $postId;
+    protected int $post_id;
     protected string $liker;
 
     public function getPostId(): int
     {
-        return $this->postId;
+        return $this->post_id;
     }
 
     public function setPostId(int $postId): void
     {
-        $this->postId = $postId;
+        $this->post_id = $postId;
     }
 
     public function getLiker(): string

@@ -27,12 +27,13 @@ use App\Configuration;
                     <div class="m-2">
                         Author: <b><?= $post->getAuthor() ?></b>
                     </div>
-                    <?php if ($post->getAuthor() == $auth->getUser()->getName()): ?>
-                        <div class="m-2 d-flex gap-2 justify-content-end">
-                            <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary">Upraviť</a>
-                            <a href="<?= $link->url('post.delete', ['id' => $post->getId()]) ?>" class="btn btn-danger">Zmazať</a>
-                        </div>
-                    <?php endif; ?>
+                   <div class="m-2 d-flex gap-2 justify-content-end">
+                       <a href="<?= $link->url('post.like', ['id' => $post->getId()]) ?>" class="btn btn-success"><i class="bi bi-hand-thumbs-up"></i> <?= $post->getLikeCount() ?></a>
+                       <?php if ($post->getAuthor() == $auth->getUser()->getName()): ?>
+                           <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary">Upraviť</a>
+                           <a href="<?= $link->url('post.delete', ['id' => $post->getId()]) ?>" class="btn btn-danger">Zmazať</a>
+                        <?php endif; ?>
+                   </div>
                 </div>
             </div>
         <?php endforeach; ?>
