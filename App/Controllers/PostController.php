@@ -12,6 +12,12 @@ use Framework\Http\Responses\Response;
 
 class PostController extends BaseController
 {
+
+    public function authorize(Request $request, string $action): bool
+    {
+        return $this->app->getAuth()->isLogged();
+    }
+
     /**
      * Example of an action (authorization needed)
      *

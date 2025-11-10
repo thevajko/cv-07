@@ -29,9 +29,11 @@
             <img src="<?= $link->asset('images/vaiicko_logo.png') ?>" title="<?= App\Configuration::APP_NAME ?>" alt="Framework Logo">
         </a>
         <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="<?= $link->url("post.index") ?>">Príspevky</a>
-            </li>
+            <?php if ($auth?->isLogged()): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= $link->url("post.index") ?>">Príspevky</a>
+                </li>
+            <?php endif; ?>
         </ul>
         <?php if ($auth?->isLogged()) { ?>
             <span class="navbar-text">Logged in user: <b><?= $auth?->user?->name ?></b></span>
