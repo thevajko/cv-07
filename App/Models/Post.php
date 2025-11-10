@@ -10,6 +10,7 @@ class Post extends Model
     protected ?int $id = null;
     protected ?string $text;
     protected ?string $picture;
+    protected ?string $author ;
 
     public function getId(): ?int
     {
@@ -39,5 +40,15 @@ class Post extends Model
     public function setPicture(string $picture): void
     {
         $this->picture = $picture;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(string $author): void
+    {
+        $this->author = $author;
     }
 }

@@ -15,7 +15,17 @@ class PostController extends BaseController
 
     public function authorize(Request $request, string $action): bool
     {
-        return $this->app->getAuth()->isLogged();
+        if (!$this->app->getAuth()->isLogged()) return false;
+
+        if (in_array($action, ['edit', 'save', 'delete'])) {
+            $id = (int)$request->value('id');
+            $post = Post::getOne($id);
+            if (is_null($post)) {
+                return true;
+            }
+            return $post->getAuthor() == $this->app->getAuth()->getUser()->getName();
+        }
+        return true;
     }
 
     /**
@@ -84,8 +94,10 @@ class PostController extends BaseController
             $oldFileName = $post->getPicture();
         } else {
             $post = new Post();
+            $post->setAuthor($this->app->getAuth()->getUser()->getName());
         }
         $post->setText($request->value('text'));
+
         // Do not set original name; we'll generate a unique one below after validation and store
 
         $formErrors = $this->formErrors($request);
