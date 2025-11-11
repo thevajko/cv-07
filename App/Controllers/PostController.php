@@ -81,6 +81,11 @@ class PostController extends BaseController
 
         if ($id > 0) {
             $post = Post::getOne($id);
+
+            if ($this->app->getAuth()->getUser()->getName() != $post->getAuthor() ) {
+                throw new HttpException(401);
+            }
+
             $oldFileName = $post->getPicture();
         } else {
             $post = new Post();
@@ -147,6 +152,10 @@ class PostController extends BaseController
         try {
             $id = (int)$request->value('id');
             $post = Post::getOne($id);
+
+            if ($this->app->getAuth()->getUser()->getName() != $post->getAuthor() ) {
+                throw new HttpException(401);
+            }
 
             if (is_null($post)) {
                 throw new HttpException(404);
