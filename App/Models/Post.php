@@ -51,4 +51,10 @@ class Post extends Model
     {
         $this->picture = $picture;
     }
+
+    public function getLikeNumber()
+    {
+        return Like::getCount("post_id = ?",[ $this->getId()]);
+
+    }
 }

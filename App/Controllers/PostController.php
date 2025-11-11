@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Configuration;
+use App\Models\Like;
 use App\Models\Post;
 use Exception;
 use Framework\Core\BaseController;
@@ -54,6 +55,28 @@ class PostController extends BaseController
         } catch (Exception $e) {
             throw new HttpException(500, "DB Chyba: " . $e->getMessage());
         }
+    }
+
+    public function like(Request $request) :Response {
+
+        $id = (int)$request->value('id');
+        $post = Post::getOne($id);
+
+        $like = Like::getAll("post_id = ? AND liker like ?",
+            [
+                $post->getId(),
+                $this->app->getAuth()->getUser()->getName()
+            ]);
+
+        if (!$like) {
+            $like = new Like();
+            $like->setPostId($post->getId());
+            $like->setLiker($this->app->getAuth()->getUser()->getName());
+            $like->save();
+        } else {
+            $like[0]->delete();
+        }
+        return $this->redirect($this->url("post.index"));
     }
 
     /**
