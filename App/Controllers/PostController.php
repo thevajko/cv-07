@@ -15,6 +15,25 @@ class PostController extends BaseController
 
     public function authorize(Request $request, string $action): bool
     {
+        switch ($action) {
+            case "save" :
+            case "edit" :
+            case "delete" :
+                $id = (int)$request->value('id');
+                $post = Post::getOne($id);
+                if (is_null($post)) {
+                    return false;
+                    throw new HttpException(401);
+                }
+                if ($this->app->getAuth()->getUser()->getName() != $post->getAuthor() ) {
+                    return false;
+                    throw new HttpException(401);
+                }
+            break;
+        }
+
+
+
         return $this->app->getAuth()->isLogged();
     }
 
@@ -60,6 +79,10 @@ class PostController extends BaseController
     {
         $id = (int)$request->value('id');
         $post = Post::getOne($id);
+
+        if ($this->app->getAuth()->getUser()->getName() != $post->getAuthor() ) {
+            throw new HttpException(401);
+        }
 
         if (is_null($post)) {
             throw new HttpException(404);
