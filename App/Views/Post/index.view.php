@@ -23,6 +23,11 @@ use App\Configuration;
                     <div class="m-2">
                         <?= $post->getText() ?>
                     </div>
+                    <div class="m-2 text-end">
+                        <em>Autor:
+                        <?=  htmlspecialchars($post->getAuthor()) ?>
+                        </em>
+                    </div>
                     <div class="m-2 d-flex gap-2 justify-content-end">
                         <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary">Upraviť</a>
                         <a href="<?= $link->url('post.delete', ['id' => $post->getId()]) ?>" class="btn btn-danger">Zmazať</a>
