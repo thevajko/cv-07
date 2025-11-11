@@ -84,6 +84,7 @@ class PostController extends BaseController
             $oldFileName = $post->getPicture();
         } else {
             $post = new Post();
+            $post->setAuthor($this->app->getAuth()->getUser()->getName());
         }
         $post->setText($request->value('text'));
         // Do not set original name; we'll generate a unique one below after validation and store
