@@ -22,8 +22,7 @@ class PostController extends BaseController
                 $id = (int)$request->value('id');
                 $post = Post::getOne($id);
                 if (is_null($post)) {
-                    return false;
-                    throw new HttpException(401);
+                    return true;
                 }
                 if ($this->app->getAuth()->getUser()->getName() != $post->getAuthor() ) {
                     return false;
