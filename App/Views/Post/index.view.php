@@ -3,6 +3,7 @@
 /** @var Framework\Support\LinkGenerator $link */
 /** @var array $formErrors */
 /** @var \App\Models\Post[] $posts */
+/** @var \Framework\Core\IAuthenticator $auth */
 
 use App\Configuration;
 ?>
@@ -28,10 +29,12 @@ use App\Configuration;
                         <?=  htmlspecialchars($post->getAuthor()) ?>
                         </em>
                     </div>
-                    <div class="m-2 d-flex gap-2 justify-content-end">
-                        <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary">Upraviť</a>
-                        <a href="<?= $link->url('post.delete', ['id' => $post->getId()]) ?>" class="btn btn-danger">Zmazať</a>
-                    </div>
+                    <?php if ($auth->getUser()->getName() == $post->getAuthor()) { ?>
+                        <div class="m-2 d-flex gap-2 justify-content-end">
+                            <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary">Upraviť</a>
+                            <a href="<?= $link->url('post.delete', ['id' => $post->getId()]) ?>" class="btn btn-danger">Zmazať</a>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
         <?php endforeach; ?>
