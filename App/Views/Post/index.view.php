@@ -24,6 +24,8 @@ use App\Configuration;
                         <?= $post->getText() ?>
                     </div>
                     <div class="m-2 d-flex gap-2 justify-content-end">
+                        <span>Autor: <?= $post->getAuthor() ?></span>
+                        <span class="flex-grow-1"></span>
                         <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary">Upraviť</a>
                         <a href="<?= $link->url('post.delete', ['id' => $post->getId()]) ?>" class="btn btn-danger">Zmazať</a>
                     </div>
