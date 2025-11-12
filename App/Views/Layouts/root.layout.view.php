@@ -21,6 +21,7 @@
             crossorigin="anonymous"></script>
     <link rel="stylesheet" href="<?= $link->asset('css/styl.css') ?>">
     <script src="<?= $link->asset('js/script.js') ?>"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-sm bg-light">
