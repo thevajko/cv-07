@@ -51,4 +51,11 @@ class Post extends Model
     {
         $this->author = $author;
     }
+
+    public function getLikeCount(): int
+    {
+        //return Like::getCount("post_id = ?", [$this->id]);
+        $likes = $this->getAllRelated(Like::class, "post_id");
+        return count($likes);
+    }
 }
