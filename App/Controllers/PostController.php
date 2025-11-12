@@ -15,8 +15,18 @@ class PostController extends BaseController
 
     public function authorize(Request $request, string $action): bool
     {
-        // All actions in this controller require authentication
-        return $this->app->getAuth()->isLogged();
+        if (!$this->app->getAuth()->isLogged()) return false;
+        if (in_array($action, ['edit', 'save', 'delete'])) {
+            $id = (int)$request->value('id');
+            $post = Post::getOne($id);
+            if (is_null($post)) {
+                return true;
+            }
+            if ($post->getAuthor() != $this->app->getAuth()->getUser()->getName()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
