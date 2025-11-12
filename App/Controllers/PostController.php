@@ -87,6 +87,8 @@ class PostController extends BaseController
             $post = new Post();
         }
         $post->setText($request->value('text'));
+        $post->setAuthor($this->app->getAuth()->getUser()->getName());
+
         // Do not set original name; we'll generate a unique one below after validation and store
 
         $formErrors = $this->formErrors($request);
