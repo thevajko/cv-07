@@ -1,8 +1,8 @@
 /**
- * Form validation
+ * Validates the post form.
  *
  * @param Request $request
- * @return array
+ * @return string[] List of error messages, empty if the form is valid.
  */
 private function formErrors(Request $request): array
 {
