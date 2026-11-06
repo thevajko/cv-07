@@ -29,10 +29,10 @@ Východiskom je aplikácia z cvičenia 06.
     2. Vytvorte nový model `Like` a pridajte atribúty podľa DB tabuľky. Atribúty pomenujte rovnako ako stĺpce
        (napr. `post_id`), inak ich framework nenamapuje.
     3. Pridajte si do aplikácie ikony z bootstrapu (odkaz na CSS vložte do `root.layout.view.php`).
-    4. Doplňte v príspevku tlačidlo na lajkovanie (Bootstrap ikona) s počtom lajkov.
+    4. Doplňte v príspevku tlačidlo na lajkovanie (Bootstrap ikona).
     5. Uložte lajk bez ohľadu na to, koľkokrát používateľ klikol na príspevok. Do stĺpca `liker` vždy uložte meno
        `Anonym`.
-    6. Zobrazte počet lajkov pri každom príspevku.
+    6. Zobrazte počet lajkov pri každom príspevku priamo v tlačidle na lajkovanie.
 
 # Použitý framework
 
