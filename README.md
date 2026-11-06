@@ -7,20 +7,24 @@ Momentálne je otvorená vetva __MASTER__, ktorá obsahuje _štartér_. Riešeni
 Východiskom je aplikácia z cvičenia 06.
 
 1. Pridajte kontrolu na strane servera (text je povinný vždy, obrázok len pri pridaní príspevku, obrázok je len typu
-   jpg, alebo png a text má aspoň 5 znakov). Zdrojový kód pre metódu na kontrolu chýb vo formulári nájdete v súbore `formErrors.snippet.php`.
+   jpg, alebo png a text má aspoň 5 znakov). Zdrojový kód pre metódu na kontrolu chýb vo formulári nájdete v súbore
+   `formErrors.snippet.php`.
     1. Zmeňte vo formulári pole pre obrázok na typ `file` a doplňte `enctype="multipart/form-data"`.
-    2. Skopírujte metódu `formErrors()` do kontrolera `PostController` a zavolajte ju v akcii `save()`.
+    2. Skopírujte metódu `formErrors()` do kontrolera `PostController` a zavolajte ju v akcii `save()`. Druhý parameter
+       určuje, či ide o nový príspevok.
     3. Ak sú vo formulári chyby, príspevok neukladajte a znovu zobrazte formulár aj s chybami. Použite
-       `$this->html([...], 'add')`, druhý parameter je názov pohľadu (pri úprave `'edit'`).
+       `$this->html([...], 'add')`, druhý parameter je názov pohľadu (pri úprave `'edit'`). Do pohľadu pošlite príspevok
+       aj chyby.
     4. Upravte pohľad s formulárom tak, aby zobrazoval chyby. Pozor, pri bežnom zobrazení formulára premenná s chybami
        neexistuje.
-2. Zmeňte formulár pre pridávanie a editáciu príspevkov tak, aby bolo možné nahrať obrázok z počítača. Obrázok sa má
-   uložiť do adresára `public\uploads` a v DB sa má uložiť len jeho názov. Obrázok sa má zobraziť v zozname príspevkov.
+2. Upravte ukladanie príspevkov tak, aby sa nahraný obrázok uložil do adresára `public\uploads` a v DB sa uložil len
+   jeho názov. Obrázok sa má zobraziť v zozname príspevkov.
     1. Vytvorte adresár `public\uploads` (cesty sú v konštantách `UPLOAD_DIR` a `UPLOAD_URL` v `Configuration`).
-       Nezabudnite nastaviť pre adresár (rekurzívne) práva na zápis pre všetkých (Linux a WSL).
+       Nezabudnite nastaviť pre adresár (rekurzívne) práva na zápis pre všetkých (Linux a WSL). Reštartujte Docker
+       kontajnery (`docker compose up -d` v adresári `docker`), aby sa načítali nové limity pre veľkosť súborov.
     2. V modeli `Post` odstráňte `picture` z `$fillable`.
-    3. V akcii `save()` uložte nahraný súbor pod unikátnym názvom a do príspevku uložte len tento názov. Súbor získate cez
-       `$request->file('picture')` a uložíte metódou `store()` triedy `UploadedFile`.
+    3. V akcii `save()` uložte nahraný súbor pod unikátnym názvom a do príspevku uložte len tento názov. Súbor
+       získate cez `$request->file('picture')` a uložíte metódou `store()` triedy `UploadedFile`.
     4. Pri úprave a mazaní príspevku zmažte z disku aj pôvodný obrázok. Ak pri úprave nebol nahraný nový súbor,
        ponechajte pôvodný obrázok.
     5. V zozname príspevkov zložte adresu obrázka z konštanty `UPLOAD_URL` a názvu súboru.
