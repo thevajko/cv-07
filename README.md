@@ -13,14 +13,13 @@ Východiskom je aplikácia z cvičenia 06.
     3. Ak sú vo formulári chyby, príspevok neukladajte a znovu zobrazte formulár aj s chybami.
     4. Upravte pohľad s formulárom tak, aby zobrazoval chyby.
 2. Zmeňte formulár pre pridávanie a editáciu príspevkov tak, aby bolo možné nahrať obrázok z počítača. Obrázok sa má
-   uložiť
-   do adresára `public\uploads` a v DB sa má uložiť len jeho názov. Obrázok sa má zobraziť v zozname príspevkov.
+   uložiť do adresára `public\uploads` a v DB sa má uložiť len jeho názov. Obrázok sa má zobraziť v zozname príspevkov.
     1. Vytvorte adresár `public\uploads` (cesty sú v konštantách `UPLOAD_DIR` a `UPLOAD_URL` v `Configuration`).
        Nezabudnite nastaviť pre adresár (rekurzívne) práva na zápis pre všetkých (Linux a WSL).
     2. V modeli `Post` odstráňte `picture` z `$fillable`.
     3. V akcii `save()` uložte nahraný súbor pod unikátnym názvom a do príspevku uložte len tento názov.
     4. Pri úprave a mazaní príspevku zmažte z disku aj pôvodný obrázok.
-    5. Zobrazte obrázky v zozname príspevkov.
+    5. V zozname príspevkov zložte adresu obrázka z konštanty `UPLOAD_URL` a názvu súboru.
     6. Zmažte pôvodné príspevky z DB (obsahujú URL adresy obrázkov).
 3. Pridanie lajkovania k príspevkom
     1. Spustite SQL skript `snippets\ddl.likes_01.sql`.
