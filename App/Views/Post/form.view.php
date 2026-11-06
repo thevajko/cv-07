@@ -15,7 +15,7 @@
         <label for="picture" class="form-label">Súbor obrázka</label>
         <input type="file" class="form-control" name="picture" id="picture">
         <?php if ($post->getPicture() != "") { ?>
-            <div class="form-text">Aktuálny súbor: <?= e(substr($post->getPicture(), strpos($post->getPicture(), '-') + 1)) ?></div>
+            <div class="form-text">Aktuálny súbor: <?= e($post->getPicture()) ?></div>
         <?php } ?>
     </div>
     <div class="mb-3">
