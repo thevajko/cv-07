@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Configuration;
 use App\Models\Post;
 use Framework\Core\BaseController;
 use Framework\Http\HttpException;
@@ -68,7 +69,17 @@ class PostController extends BaseController
             );
         }
 
+        // Store the uploaded file under a unique name, so files with the same name do not overwrite each other
+        $file = $request->file('picture');
+        $fileName = time() . '-' . $file->getName();
+        if (!$file->store(Configuration::UPLOAD_DIR . $fileName)) {
+            throw new HttpException(500, 'Obrázok sa nepodarilo uložiť.');
+        }
+
+        $oldFileName = $post->getPicture();
+        $post->setPicture($fileName);
         $post->save();
+        $this->deletePicture($oldFileName);
 
         return $this->redirect($this->url('post.index'));
     }
@@ -84,7 +95,9 @@ class PostController extends BaseController
         if (!$request->isPost()) {
             throw new HttpException(405);
         }
-        $this->findPost($request)->delete();
+        $post = $this->findPost($request);
+        $post->delete();
+        $this->deletePicture($post->getPicture());
 
         return $this->redirect($this->url('post.index'));
     }
@@ -101,6 +114,19 @@ class PostController extends BaseController
             throw new HttpException(404, 'Príspevok neexistuje.');
         }
         return $post;
+    }
+
+    /**
+     * Deletes the picture file from the upload directory, if it exists.
+     *
+     * @param string $fileName File name of the picture.
+     */
+    private function deletePicture(string $fileName): void
+    {
+        $path = Configuration::UPLOAD_DIR . $fileName;
+        if ($fileName != "" && is_file($path)) {
+            unlink($path);
+        }
     }
 
     /**

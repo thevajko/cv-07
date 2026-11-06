@@ -2,6 +2,9 @@
 
 /** @var \App\Models\Post[] $posts */
 /** @var Framework\Support\LinkGenerator $link */
+
+use App\Configuration;
+
 ?>
 
 <div class="container-fluid">
@@ -14,7 +17,7 @@
         <?php foreach ($posts as $post) { ?>
             <div class="col-auto mw-100">
                 <div class="card post h-100">
-                    <img src="<?= e($post->getPicture()) ?>" class="card-img-top" alt="">
+                    <img src="<?= e($link->asset(Configuration::UPLOAD_URL . $post->getPicture())) ?>" class="card-img-top" alt="">
                     <div class="card-body">
                         <p class="card-text"><?= e($post->getText()) ?></p>
                     </div>

@@ -16,10 +16,11 @@ class Post extends Model
 {
     /**
      * Properties that can be set from a request by setFromRequest(). The primary key is never set from a request.
+     * The picture is an uploaded file, so its name is set in the controller.
      *
      * @var string[]|null
      */
-    protected static ?array $fillable = ['text', 'picture'];
+    protected static ?array $fillable = ['text'];
 
     /**
      * Primary key of the post, null until the post is saved to the database.
@@ -32,7 +33,7 @@ class Post extends Model
     protected ?string $text = null;
 
     /**
-     * URL of the picture. The column is NOT NULL, so an empty string is the default.
+     * File name of the picture stored in the upload directory. The column is NOT NULL, so an empty string is the default.
      */
     protected string $picture = '';
 
@@ -68,9 +69,9 @@ class Post extends Model
     }
 
     /**
-     * Returns the URL of the picture.
+     * Returns the file name of the picture.
      *
-     * @return string The picture URL.
+     * @return string The picture file name.
      */
     public function getPicture(): string
     {
@@ -78,9 +79,9 @@ class Post extends Model
     }
 
     /**
-     * Sets the URL of the picture.
+     * Sets the file name of the picture.
      *
-     * @param string $picture The new picture URL.
+     * @param string $picture The new picture file name.
      * @return void
      */
     public function setPicture(string $picture): void
