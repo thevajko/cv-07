@@ -118,7 +118,7 @@ class PostController extends BaseController
 
         $like = new Like();
         $like->setPostId($post->getId());
-        $like->setLiker($this->user->getName() ?? 'anonym');
+        $like->setLiker('Anonym');
         $like->save();
 
         return $this->redirect($this->url('post.index'));
