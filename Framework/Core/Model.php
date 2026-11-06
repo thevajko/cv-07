@@ -22,6 +22,7 @@ use PDOException;
  * - To set a custom table name: define `protected static ?string $tableName = 'my_table';`
  * - To set a custom primary key: define `protected static ?string $primaryKey = 'my_pk';`
  * - To map DB columns to properties: define `protected static array $columnsMap = ['db_column' => 'propertyName'];`
+ * - To allow only some properties to be set from a request: define `protected static ?array $fillable = ['title'];`
  *
  * @package App\Core\Storage
  */
@@ -32,12 +33,16 @@ abstract class Model implements \JsonSerializable
      * - $tableName: custom DB table name
      * - $primaryKey: custom primary key column
      * - $columnsMap: map of DB column => property name
+     * - $fillable: names of properties that can be set by setFromRequest() (null = all properties)
      */
     protected static ?string $tableName = null;
     protected static ?string $primaryKey = null;
     protected static array $columnsMap = [];
+    /** @var string[]|null */
+    protected static ?array $fillable = null;
 
     private static array $dbColumns = []; // Cache for database column names
+    private static array $modelProperties = []; // Cache for model property names
     private static IDbConvention $dbConventions; // Instance for database naming conventions
     private mixed $_dbId = null; // Store the primary key value for the model
     private ?ResultSet $_resultSet = null; // ResultSet for related entity loading
@@ -78,18 +83,49 @@ abstract class Model implements \JsonSerializable
     /**
      * Populates the model's properties with values from the incoming request.
      *
-     * This method matches property names with corresponding request parameters.
+     * This method matches property names with corresponding request parameters. To prevent mass assignment (e.g. a user
+     * adding `userId` or `role` field to the form), list the allowed properties in `$fields` or in `static::$fillable`.
+     * The primary key, static properties and array values are never set. If `Configuration::MODEL_REQUIRE_FILLABLE`
+     * is true, the whitelist is required.
+     *
+     * Example: `$post->setFromRequest($request, ['title', 'text']);`
      *
      * @param Request $request The incoming HTTP request containing parameters.
+     * @param string[]|null $fields Names of properties allowed to be set; null uses `static::$fillable` (null = all).
      * @return void
+     * @throws Exception If the whitelist is required but neither `$fields` nor `static::$fillable` is defined.
      */
-    public function setFromRequest(Request $request): void
+    public function setFromRequest(Request $request, ?array $fields = null): void
     {
+        $allowed = $fields ?? static::$fillable;
+        if ($allowed === null
+            && defined(Configuration::class . '::MODEL_REQUIRE_FILLABLE')
+            && Configuration::MODEL_REQUIRE_FILLABLE
+        ) {
+            throw new Exception(sprintf(
+                'Model %s has no whitelist for setFromRequest(). Define protected static ?array $fillable = [...] ' .
+                'in the model or pass the allowed fields: $model->setFromRequest($request, [\'title\', ...]).',
+                static::class
+            ));
+        }
+
         $data = $request->isPost() ? $request->post() : $request->get();
+        $properties = static::getModelProperties();
+        $pkProperty = static::toPropertyName(static::getPkColumnName());
+
         foreach ($data as $key => $value) {
-            if (property_exists(get_class($this), $key)) {
-                $this->{$key} = $value;
+            if ($allowed !== null && !in_array($key, $allowed, true)) {
+                continue;
             }
+            // Only declared non-static properties, never the primary key (record identity is kept in the model)
+            if (!array_key_exists($key, $properties) || $key === $pkProperty) {
+                continue;
+            }
+            // DB columns are scalar, an array (e.g. title[]=x) would only cause a TypeError
+            if (is_array($value)) {
+                continue;
+            }
+            $this->{$key} = $value;
         }
     }
 
@@ -409,23 +445,77 @@ abstract class Model implements \JsonSerializable
     }
 
     /**
+     * Retrieves an array of property names from the model class.
+     * Uses reflection to get all declared properties (excluding private framework properties).
+     *
+     * @return array An associative array of property names as keys with boolean true as values.
+     */
+    private static function getModelProperties(): array
+    {
+        if (isset(self::$modelProperties[static::class])) {
+            return self::$modelProperties[static::class];
+        }
+        
+        $reflection = new \ReflectionClass(static::class);
+        $properties = [];
+        foreach ($reflection->getProperties() as $property) {
+            $propertyName = $property->getName();
+            // Exclude static properties
+            if ($property->isStatic()) {
+                continue;
+            }
+            // Exclude private properties that start with underscore (internal framework properties)
+            if ($property->isPrivate() && str_starts_with($propertyName, '_')) {
+                continue;
+            }
+            $properties[$propertyName] = true;
+        }
+        
+        self::$modelProperties[static::class] = $properties;
+        return $properties;
+    }
+
+    /**
      * Generates a list of database column names formatted for a SELECT SQL clause. Maps the database column names
-     * to their corresponding model property names.
+     * to their corresponding model property names. Only includes columns that have corresponding properties in the model.
      *
      * @return string A comma-separated string of formatted column names for SQL SELECT.
-     * @throws Exception If the query fails due to a database error.
+     * @throws Exception If the query fails due to a database error or if there are extra columns in the database.
      */
     private static function getDBColumnNamesList(): string
     {
         $dbColumns = [];
+        $modelProperties = static::getModelProperties();
+        $extraColumns = [];
+        
         foreach (static::getDbColumns() as $columnName) {
-            $name = static::toPropertyName($columnName);
-            if ($name != $columnName) {
-                $dbColumns[] = "`$columnName` AS {$name}";
+            $propertyName = static::toPropertyName($columnName);
+            
+            // Check if the property exists in the model
+            if (!isset($modelProperties[$propertyName])) {
+                $extraColumns[] = $columnName;
+                continue;
+            }
+            
+            if ($propertyName != $columnName) {
+                $dbColumns[] = "`$columnName` AS {$propertyName}";
             } else {
                 $dbColumns[] = $columnName;
             }
         }
+        
+        // Throw a descriptive error if there are extra columns in the database
+        if (!empty($extraColumns)) {
+            $columnList = implode(', ', array_map(fn($col) => "`$col`", $extraColumns));
+            throw new Exception(sprintf(
+                'Database table `%s` contains columns that do not have corresponding properties in model class `%s`: %s. ' .
+                'Please add these properties to the model class or remove them from the database table.',
+                static::getTableName(),
+                static::class,
+                $columnList
+            ));
+        }
+        
         return implode(', ', $dbColumns);
     }
 

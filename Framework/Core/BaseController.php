@@ -3,6 +3,7 @@
 namespace Framework\Core;
 
 use Exception;
+use Framework\Auth\AppUser;
 use Framework\Http\Request;
 use Framework\Http\Responses\JsonResponse;
 use Framework\Http\Responses\RedirectResponse;
@@ -49,6 +50,16 @@ abstract class BaseController
     protected App $app;
 
     /**
+     * Reference to the current user.
+     *
+     * This property provides access to the user context, allowing controllers to retrieve information about the
+     * authenticated user and perform user-specific operations.
+     *
+     * @var AppUser
+     */
+    protected AppUser $user;
+
+    /**
      * Returns the name of the controller, excluding the "Controller" suffix.
      *
      * This method is useful for dynamically determining the controller's name, which can be helpful in view rendering
@@ -86,6 +97,7 @@ abstract class BaseController
     public function setApp(App $app): void
     {
         $this->app = $app;
+        $this->user = $app->getAppUser(); // Initialize the user property
     }
 
     /**
@@ -122,7 +134,7 @@ abstract class BaseController
      * @param string|null $viewName The name of the view to render, or null to infer from context.
      * @return ViewResponse The constructed ViewResponse object.
      */
-    protected function html(array $data = [], string $viewName = null): ViewResponse
+    protected function html(array $data = [], ?string $viewName = null): ViewResponse
     {
         if ($viewName == null) {
             $viewName = $this->app->getRouter()->getControllerName() . DIRECTORY_SEPARATOR .

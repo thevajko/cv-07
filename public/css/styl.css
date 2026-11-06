@@ -5,3 +5,21 @@
 .navbar-brand img {
     width: 50px;
 }
+
+/* Post card is as wide as its picture in the original size, but at most 400px */
+.post {
+    width: fit-content;
+    max-width: 400px;
+}
+
+.post .card-img-top {
+    width: auto;
+    max-width: 100%;
+}
+
+/* Text and buttons do not widen the card, they only fill the width given by the picture */
+.post .card-body,
+.post .card-footer {
+    width: 0;
+    min-width: 100%;
+}
