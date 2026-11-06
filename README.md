@@ -6,8 +6,8 @@ Momentálne je otvorená vetva __MASTER__, ktorá obsahuje _štartér_. Riešeni
 
 Východiskom je aplikácia z cvičenia 06.
 
-1. Pridajte kontrolu na strane servera (obidva povinné polia, obrázok je len typu jpg, alebo png a text má aspoň 5
-   znakov). Zdrojový kód pre metódu na kontrolu chýb vo formulári nájdete v súbore `formErrors.snippet.php`.
+1. Pridajte kontrolu na strane servera (text je povinný vždy, obrázok len pri pridaní príspevku, obrázok je len typu
+   jpg, alebo png a text má aspoň 5 znakov). Zdrojový kód pre metódu na kontrolu chýb vo formulári nájdete v súbore `formErrors.snippet.php`.
     1. Zmeňte vo formulári pole pre obrázok na typ `file` a doplňte `enctype="multipart/form-data"`.
     2. Skopírujte metódu `formErrors()` do kontrolera `PostController` a zavolajte ju v akcii `save()`.
     3. Ak sú vo formulári chyby, príspevok neukladajte a znovu zobrazte formulár aj s chybami. Použite
@@ -21,7 +21,8 @@ Východiskom je aplikácia z cvičenia 06.
     2. V modeli `Post` odstráňte `picture` z `$fillable`.
     3. V akcii `save()` uložte nahraný súbor pod unikátnym názvom a do príspevku uložte len tento názov. Súbor získate cez
        `$request->file('picture')` a uložíte metódou `store()` triedy `UploadedFile`.
-    4. Pri úprave a mazaní príspevku zmažte z disku aj pôvodný obrázok.
+    4. Pri úprave a mazaní príspevku zmažte z disku aj pôvodný obrázok. Ak pri úprave nebol nahraný nový súbor,
+       ponechajte pôvodný obrázok.
     5. V zozname príspevkov zložte adresu obrázka z konštanty `UPLOAD_URL` a názvu súboru.
     6. Zmažte pôvodné príspevky z DB (obsahujú URL adresy obrázkov).
 3. Pridanie lajkovania k príspevkom
