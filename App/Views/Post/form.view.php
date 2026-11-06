@@ -8,7 +8,7 @@
     <input type="hidden" name="id" value="<?= $post->getId() ?>">
     <div class="mb-3">
         <label for="picture" class="form-label">URL obrázka</label>
-        <input type="url" class="form-control" name="picture" id="picture" value="<?= e($post->getPicture()) ?>" required>
+        <input type="url" class="form-control" name="picture" id="picture" value="<?= e($post->getPicture()) ?>">
     </div>
     <div class="mb-3">
         <label for="text" class="form-label">Text príspevku</label>
