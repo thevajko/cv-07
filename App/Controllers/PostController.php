@@ -130,10 +130,10 @@ class PostController extends BaseController
     }
 
     /**
-     * Validates the post form.
+     * Form validation
      *
      * @param Request $request
-     * @return string[] List of error messages, empty if the form is valid.
+     * @return array
      */
     private function formErrors(Request $request): array
     {
