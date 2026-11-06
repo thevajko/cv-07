@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Configuration;
+use App\Models\Like;
 use App\Models\Post;
 use Framework\Core\BaseController;
 use Framework\Http\HttpException;
@@ -98,6 +99,27 @@ class PostController extends BaseController
         $post = $this->findPost($request);
         $post->delete();
         $this->deletePicture($post->getPicture());
+
+        return $this->redirect($this->url('post.index'));
+    }
+
+    /**
+     * Saves a like of a post and redirects to the list of posts. The like is saved every time the user clicks.
+     *
+     * @return Response The redirect response to the list of posts.
+     * @throws HttpException If the post does not exist or the request is not POST.
+     */
+    public function like(Request $request): Response
+    {
+        if (!$request->isPost()) {
+            throw new HttpException(405);
+        }
+        $post = $this->findPost($request);
+
+        $like = new Like();
+        $like->setPostId($post->getId());
+        $like->setLiker($this->user->getName() ?? 'anonym');
+        $like->save();
 
         return $this->redirect($this->url('post.index'));
     }

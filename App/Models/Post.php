@@ -88,4 +88,14 @@ class Post extends Model
     {
         $this->picture = $picture;
     }
+
+    /**
+     * Returns the number of likes of the post.
+     *
+     * @return int The number of likes.
+     */
+    public function getLikeCount(): int
+    {
+        return Like::getCount('`post_id` = ?', [$this->id]);
+    }
 }

@@ -22,6 +22,12 @@ use App\Configuration;
                         <p class="card-text"><?= e($post->getText()) ?></p>
                     </div>
                     <div class="card-footer d-flex gap-2 justify-content-end">
+                        <form method="post" action="<?= $link->url('post.like') ?>" class="me-auto">
+                            <input type="hidden" name="id" value="<?= $post->getId() ?>">
+                            <button type="submit" class="btn btn-outline-primary" title="Páči sa mi to">
+                                <i class="bi bi-hand-thumbs-up"></i> <?= $post->getLikeCount() ?>
+                            </button>
+                        </form>
                         <a href="<?= $link->url('post.edit', ['id' => $post->getId()]) ?>" class="btn btn-primary">Upraviť</a>
                         <form method="post" action="<?= $link->url('post.delete') ?>">
                             <input type="hidden" name="id" value="<?= $post->getId() ?>">
