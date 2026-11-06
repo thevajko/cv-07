@@ -50,13 +50,24 @@ class PostController extends BaseController
     /**
      * Saves a new or an edited post and redirects to the list of posts.
      *
-     * @return Response The redirect response to the list of posts.
+     * If the form contains errors, the form is displayed again together with the errors.
+     *
+     * @return Response The redirect response to the list of posts or the form with errors.
      * @throws HttpException If the edited post does not exist.
      */
     public function save(Request $request): Response
     {
         $post = (int)$request->value('id') > 0 ? $this->findPost($request) : new Post();
         $post->setFromRequest($request);
+
+        $errors = $this->formErrors($request);
+        if (count($errors) > 0) {
+            return $this->html(
+                ['post' => $post, 'errors' => $errors],
+                $post->getId() === null ? 'add' : 'edit'
+            );
+        }
+
         $post->save();
 
         return $this->redirect($this->url('post.index'));
@@ -90,5 +101,30 @@ class PostController extends BaseController
             throw new HttpException(404, 'Príspevok neexistuje.');
         }
         return $post;
+    }
+
+    /**
+     * Validates the post form.
+     *
+     * @param Request $request
+     * @return string[] List of error messages, empty if the form is valid.
+     */
+    private function formErrors(Request $request): array
+    {
+        $errors = [];
+        if ($request->file('picture')->getName() == "") {
+            $errors[] = "Pole Súbor obrázka musí byť vyplnené!";
+        }
+        if ($request->value('text') == "") {
+            $errors[] = "Pole Text príspevku musí byť vyplnené!";
+        }
+        if ($request->file('picture')->getName() != "" &&
+            !in_array($request->file('picture')->getType(), ['image/jpeg', 'image/png'])) {
+            $errors[] = "Obrázok musí byť typu JPG alebo PNG!";
+        }
+        if ($request->value('text') != "" && strlen($request->value('text')) < 5) {
+            $errors[] = "Počet znakov v text príspevku musí byť viac ako 5!";
+        }
+        return $errors;
     }
 }
