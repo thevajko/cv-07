@@ -62,7 +62,7 @@ class PostController extends BaseController
         $post = (int)$request->value('id') > 0 ? $this->findPost($request) : new Post();
         $post->setFromRequest($request);
 
-        $errors = $this->formErrors($request);
+        $errors = $this->formErrors($request, $post->getId() === null);
         if (count($errors) > 0) {
             return $this->html(
                 ['post' => $post, 'errors' => $errors],
@@ -70,17 +70,21 @@ class PostController extends BaseController
             );
         }
 
-        // Store the uploaded file under a unique name, so files with the same name do not overwrite each other
+        // The picture is optional when editing, without a new file the original picture is kept
         $file = $request->file('picture');
-        $fileName = time() . '-' . $file->getName();
-        if (!$file->store(Configuration::UPLOAD_DIR . $fileName)) {
-            throw new HttpException(500, 'Obrázok sa nepodarilo uložiť.');
+        if ($file != null && $file->getName() != "") {
+            // Store the uploaded file under a unique name, so files with the same name do not overwrite each other
+            $fileName = time() . '-' . $file->getName();
+            if (!$file->store(Configuration::UPLOAD_DIR . $fileName)) {
+                throw new HttpException(500, 'Obrázok sa nepodarilo uložiť.');
+            }
+            $oldFileName = $post->getPicture();
+            $post->setPicture($fileName);
+            $post->save();
+            $this->deletePicture($oldFileName);
+        } else {
+            $post->save();
         }
-
-        $oldFileName = $post->getPicture();
-        $post->setPicture($fileName);
-        $post->save();
-        $this->deletePicture($oldFileName);
 
         return $this->redirect($this->url('post.index'));
     }
@@ -155,20 +159,26 @@ class PostController extends BaseController
      * Validates the post form.
      *
      * @param Request $request
+     * @param bool $isNew True for a new post, the picture is required only for a new post.
      * @return string[] List of error messages, empty if the form is valid.
      */
-    private function formErrors(Request $request): array
+    private function formErrors(Request $request, bool $isNew): array
     {
         $errors = [];
-        if ($request->file('picture')->getName() == "") {
-            $errors[] = "Pole Súbor obrázka musí byť vyplnené!";
+        $picture = $request->file('picture');
+        if ($picture == null || $picture->getName() == "") {
+            if ($isNew) {
+                $errors[] = "Pole Súbor obrázka musí byť vyplnené!";
+            }
+        } elseif ($picture->getError() == UPLOAD_ERR_INI_SIZE) {
+            $errors[] = "Obrázok je príliš veľký, maximálna veľkosť je " . ini_get('upload_max_filesize') . "B!";
+        } elseif (!$picture->isOk()) {
+            $errors[] = "Obrázok sa nepodarilo nahrať!";
+        } elseif (!in_array($picture->getType(), ['image/jpeg', 'image/png'])) {
+            $errors[] = "Obrázok musí byť typu JPG alebo PNG!";
         }
         if ($request->value('text') == "") {
             $errors[] = "Pole Text príspevku musí byť vyplnené!";
-        }
-        if ($request->file('picture')->getName() != "" &&
-            !in_array($request->file('picture')->getType(), ['image/jpeg', 'image/png'])) {
-            $errors[] = "Obrázok musí byť typu JPG alebo PNG!";
         }
         if ($request->value('text') != "" && mb_strlen($request->value('text')) < 5) {
             $errors[] = "Text príspevku musí mať aspoň 5 znakov!";
