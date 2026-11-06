@@ -17,7 +17,7 @@ private function formErrors(Request $request): array
         !in_array($request->file('picture')->getType(), ['image/jpeg', 'image/png'])) {
         $errors[] = "Obrázok musí byť typu JPG alebo PNG!";
     }
-    if ($request->value('text') != "" && strlen($request->value('text')) < 5) {
+    if ($request->value('text') != "" && mb_strlen($request->value('text')) < 5) {
         $errors[] = "Text príspevku musí mať aspoň 5 znakov!";
     }
     return $errors;
