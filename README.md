@@ -20,8 +20,7 @@ Východiskom je aplikácia z cvičenia 06.
 2. Upravte ukladanie príspevkov tak, aby sa nahraný obrázok uložil do adresára `public\uploads` a v DB sa uložil len
    jeho názov. Obrázok sa má zobraziť v zozname príspevkov.
     1. Vytvorte adresár `public\uploads` (cesty sú v konštantách `UPLOAD_DIR` a `UPLOAD_URL` v `Configuration`).
-       Nezabudnite nastaviť pre adresár (rekurzívne) práva na zápis pre všetkých (Linux a WSL). Reštartujte Docker
-       kontajnery (`docker compose up -d` v adresári `docker`), aby sa načítali nové limity pre veľkosť súborov.
+       Nezabudnite nastaviť pre adresár (rekurzívne) práva na zápis pre všetkých (Linux a WSL).
     2. V modeli `Post` odstráňte `picture` z `$fillable`.
     3. V akcii `save()` uložte nahraný súbor pod unikátnym názvom a do príspevku uložte len tento názov. Súbor
        získate cez `$request->file('picture')` a uložíte metódou `store()` triedy `UploadedFile`.
