@@ -97,7 +97,9 @@ class PostController extends BaseController
         if (!$request->isPost()) {
             throw new HttpException(405);
         }
-        $this->findPost($request)->delete();
+        $post = $this->findPost($request);
+        $post->delete();
+        $this->deletePicture($post->getPicture());
 
         return $this->redirect($this->url('post.index'));
     }
