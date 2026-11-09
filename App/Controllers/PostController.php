@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Configuration;
 use App\Models\Post;
 use Framework\Core\BaseController;
 use Framework\Http\HttpException;
@@ -55,6 +56,17 @@ class PostController extends BaseController
      */
     public function save(Request $request): Response
     {
+        $post = (int)$request->value('id') > 0 ? $this->findPost($request) : new Post();
+        $post->setFromRequest($request);
+
+        $errors = $this->formErrors($request, $post->getId() === null);
+        if (count($errors) > 0) {
+            return $this->html(
+                ['post' => $post, 'errors' => $errors],
+                $post->getId() === null ? 'add' : 'edit'
+            );
+        }
+
         $post = (int)$request->value('id') > 0 ? $this->findPost($request) : new Post();
         $post->setFromRequest($request);
         $post->save();
