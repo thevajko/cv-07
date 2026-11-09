@@ -67,7 +67,21 @@ class PostController extends BaseController
             );
         }
 
-        $post->save();
+        // The picture is optional when editing, without a new file the original picture is kept
+        $file = $request->file('picture');
+        if ($file != null && $file->getName() != "") {
+            // Store the uploaded file under a unique name, so files with the same name do not overwrite each other
+            $fileName = time() . '-' . $file->getName();
+            if (!$file->store(Configuration::UPLOAD_DIR . $fileName)) {
+                throw new HttpException(500, 'Obrázok sa nepodarilo uložiť.');
+            }
+            $oldFileName = $post->getPicture();
+            $post->setPicture($fileName);
+            $post->save();
+            $this->deletePicture($oldFileName);
+        } else {
+            $post->save();
+        }
 
         return $this->redirect($this->url('post.index'));
     }
