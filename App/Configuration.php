@@ -74,11 +74,10 @@ class Configuration
     public const ERROR_HANDLER_CLASS = ErrorHandler::class;
 
     /**
-     * Directory for file uploads on the filesystem (uses OS-specific directory separators).
-     * Example on Linux:  public/uploads/
-     * Example on Windows: public\uploads\
+     * Directory for file uploads on the filesystem, relative to the public/ directory (the working directory
+     * of public/index.php). Forward slashes work on all operating systems, including Windows.
      */
-    public const UPLOAD_DIR = 'uploads' . DIRECTORY_SEPARATOR;
+    public const UPLOAD_DIR = 'uploads/';
 
     /**
      * Public URL path prefix for uploaded files (always uses forward slashes for web URLs).
