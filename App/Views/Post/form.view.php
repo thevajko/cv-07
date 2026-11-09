@@ -3,11 +3,18 @@
 /** @var \App\Models\Post $post */
 /** @var Framework\Support\LinkGenerator $link */
 ?>
+<div class="alert alert-danger" role="alert">
+<ul>
+<?php foreach ($errors ?? [] as $error) { ?>
+    <li><?= e($error) ?></li>
+<?php } ?>
+  </ul>
+</div>
 
 <form method="post" action="<?= $link->url('post.save') ?>" enctype="multipart/form-data">
     <input type="hidden" name="id" value="<?= $post->getId() ?>">
     <div class="mb-3">
-        <label for="picture" class="form-label">URL obrázka</label>
+        <label for="picture" class="form-label">Súbor obrázka</label>
         <input type="file" class="form-control" name="picture" id="picture" value="<?= e($post->getPicture()) ?>">
     </div>
     <div class="mb-3">

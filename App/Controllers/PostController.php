@@ -67,8 +67,6 @@ class PostController extends BaseController
             );
         }
 
-        $post = (int)$request->value('id') > 0 ? $this->findPost($request) : new Post();
-        $post->setFromRequest($request);
         $post->save();
 
         return $this->redirect($this->url('post.index'));
